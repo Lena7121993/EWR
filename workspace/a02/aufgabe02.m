@@ -24,13 +24,13 @@ t0=1960;
 %was ist t1?
 t1=2100;
 
-%exakte Lösung
+%exakte Loesung
 yex=@(t) (d/a)./(1-c*exp(-d(t-t0)));
 %Diff.Gl. Verhulst Modell
 verhulst=@(tt,yy) yy(d-a*yy);
 
 %%Teilaufgabe c
-%Initialisierung der Variablen für Konvergenzanalyse
+%Initialisierung der Variablen fuer Konvergenzanalyse
 
 %Anzahl an Rechnungen
 n_cycles=6;
@@ -40,7 +40,7 @@ dt=zeros(n_cycles,1);
 NN=zeros(n_cycles,1);
 % Fehler 
 err=zeros(n_cycles,1);
-% benötigte Rechenzeit
+% benoetigte Rechenzeit
 ctm=zeros(n_cycles,1);
 
 %Laden der Standard Optionen
@@ -55,14 +55,14 @@ fprintf('Die Rechnung ist im Gang')
 
 figure(1);
 clf;
-%for-Schleife für Anzahl der Rechnungen
+%for-Schleife fuer Anzahl der Rechnungen
 for cycle=1:n_cycles,
     
     tau=10/(2^(cycle-1));
     opts.dt=tau;
     %Zeitessung
     tic;
-    %Berechnung der Lösung
+    %Berechnung der Loesung
     [t,y]=tb_thetaEuler(verhulst,[t0,t1],y0,opts);
     %Zeitmessung beenden
     toc;
@@ -95,13 +95,11 @@ fprintf('Fehlerschaetzung: E = %5.2e * dt^{%5.2f}\n',avcst,-aveoc);
 
 
 %%Teilaufgabe f
-%statt Fehler Rechenzeiten übergeben
+%statt Fehler Rechenzeiten uebergeben
 figure(3);
 [eoc,cst] = eoctool(NN,ctm);
 
 
-    
-    
     
 
 
