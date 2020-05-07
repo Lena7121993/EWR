@@ -1,6 +1,6 @@
 %% Aufgabe3
-%In dieser Aufgabe wird das Raeber-Beute-Modell von Lotka betrachtet.
-%Dieses soll mit Hilfe einer Matlab Routine gelöst werden. 
+%In dieser Aufgabe wird das Raeuber-Beute-Modell von Lotka betrachtet.
+%Dieses soll mit Hilfe einer Matlab Routine gelÃ¶st werden. 
 
 %Autor: Lena Hilpp ; Jan Frithjof Fleischhammer
 %Version: 04.05.2020
@@ -14,9 +14,9 @@ openfigure(4,'init');
 
 %% Teilaufgabe b
 %Definieren der Modell Parameter
-%Geburten und Sterberate für Rauber
+%Geburten und Sterberate fÃ¼r Rauber
 gr=1; ar=2;
-%Geburten und Sterberate für Beute
+%Geburten und Sterberate fÃ¼r Beute
 gb=1; ab=1 ;
 %Anfangspopulation
 r0=2; b0=2.25;
@@ -28,23 +28,19 @@ dgl=@(t,x) [-ar*x(1)+gr*x(2)*x(1);ab*x(2)-gb*x(1)*x(2)];
 
 %% Teilaufgabe c
 
- %Laden der Standard Optionen für thetaEuler
+ %Laden der Optionen fÃ¼r thetaEuler
  opts=tb_thetaEuler();
- %Option fuer Verfahren einstellen 
  opts.theta=0; %opts.theta=0.5; %opts.theta=1;
  opts.ssolver='fminsearch';
  tau=0.025;
  opts.dt=tau;
     
 %Switch
-s=input('Gebe 1 (ODE45) oder 2 (thetaEuler)ein: ');
-
+s=input('Gebe 1 (ODE45) oder 2 (thetaEuler) ein: ');
 switch s
-    %berechnen der Loesung mit ode45
-    case 1
+    case 1 %berechnen der Loesung mit ode45
     [t,y]= ode45(dgl,[0,10],y0);
-    %berechnen der Loesung mit thetaEuler
-    otherwise 
+    otherwise %berechnen der Loesung mit thetaEuler
     [t,y]=tb_thetaEuler(dgl,[0,10],y0,opts);
 end
 
@@ -55,11 +51,11 @@ clf;
 if s==1
     r=y(:,1);
     b=y(:,2);
-    name='Loesung ueber Zeit/ODE45'
+    name='Loesung ueber Zeit/ODE45';
 else
     r=y(1,:);
     b=y(2,:);
-    name='Loesung ueber Zeit/thetaEuler'
+    name='Loesung ueber Zeit/thetaEuler';
 end
 %Loesung als Funktion ueber Zeit
 hold on;
@@ -76,7 +72,7 @@ fprintf('minmale Anzahl Rauber=%f , maximale Anzahl Rauber= %f \n',min(r),max(r)
 fprintf('minmale Anzahl Beute=%f , maximale Anzahl Beute= %f \n',min(b),max(b));
 
 %Plot speichern
-print('-f1','bild1','-dpng','-r100');
+print('-f','bild1','-dpng','-r100');
 
 %% Teilaufgabe e
 %Phasendiagramm 
@@ -101,21 +97,25 @@ clf;
 if s==1 %ODE45
     name='Potential-Erhaltung/ODE45';
     %Integral der Gleichung
-     E=@(t) ab*log(r)-gb*r+ar*log(b)-gr*b;
-     %plot
-     plot(t,E(t),'r-','linewidth',2);
+    E=@(t) ab*log(r)-gb*r+ar*log(b)-gr*b;
+    %plot
+    plot(t,E(t),'r-','linewidth',2);
     xlabel('Zeit');
     ylabel('Integral');
-     title(name);
+    axis([0 10 -2.2 -1.8]);
+    title(name);
 else %ThetaEuler
     name='Potential-Erhaltung/thetaEuler';   
     
     %Theta=0
-     E=@(t) ab*log(r)-gb*r+ar*log(b)-gr*b;
+    opts.theta=0;
+    [t3,y3]=tb_thetaEuler(dgl,[0,10],y0,opts);
+    r3=y3(1,:);
+    b3=y3(2,:);
+    E3=@(t3) ab*log(r3)-gb*r3+ar*log(b3)-gr*b3;
      
-     %Theta=0.5
+    %Theta=0.5
     opts.theta=0.5;
-    %opts.ssolver='fminsearch';
     [t1,y1]=tb_thetaEuler(dgl,[0,10],y0,opts);
     r1=y1(1,:);
     b1=y1(2,:);
@@ -123,7 +123,6 @@ else %ThetaEuler
     
     %Theta=1
     opts.theta=1;
-    %opts.ssolver='fminsearch';
     [t2,y2]=tb_thetaEuler(dgl,[0,10],y0,opts);
     r2=y2(1,:);
     b2=y2(2,:);
@@ -131,7 +130,7 @@ else %ThetaEuler
     
     %plot
     hold on;
-    plot(t,E(t),'r-','linewidth',2);
+    plot(t3,E3(t3),'r-','linewidth',2);
     plot(t1,E1(t1),'b-','linewidth',2);
     plot(t2,E2(t2),'k-','linewidth',2);
     title(name);
@@ -140,7 +139,7 @@ else %ThetaEuler
     legend('theta=0','theta=0.5','theta=1','location','SouthEast')
     hold off;
         
-    end
+end
 
 print('-f3','bild3','-dpng','-r100');
 
