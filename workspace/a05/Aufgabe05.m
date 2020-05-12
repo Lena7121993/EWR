@@ -36,8 +36,9 @@ frc=@(x1,x2)[-y.*(mE./((x1.^2+x2.^2).^(3/2)).*x1)-y.*(mM./(((x1-1).^2+x2.^2).^(3
 %Plot Gravitationspotential
 figure(1);
 clf;
-x=0:0.05:1.2;
-y=-0.5:0.05:0.5;
+Nx=150;
+x = linspace(0,1.2,Nx)';
+y = linspace(-0.5,0.5,Nx)';
 [X,Y]=meshgrid(x,y);
 Z=pot(X,Y);
 R=dE(X,Y);
@@ -63,6 +64,7 @@ Fode= @(tt,zz) [zz(3);zz(4);frc(zz(1),zz(2))'];
 z0=[x0,V0];
 
 %% Teilaufgabe d
+%Loesen der Diff.Gl.
 options=odeset('RelTol',10^(-7),'AbsTol',10^(-7));
 [t,y]= ode45(Fode,[0,6.65],z0,options);
 figure(3);
@@ -76,7 +78,7 @@ while dE(y(i,1),y(i,2))>=RE
         i=i+1;
 end
 iR=i
-fprintf('Der Flug von der Erde zum Mond und wieder zurueck dauert %6.4f \n',t(iR));
+fprintf('Der Flug von der Erde zum Mond und wieder zurueck dauert %6.4f Tage\n',t(iR));
 %% Teilaufgabe e
 t=t(1:iR,:);
 y=y(1:iR,:);
@@ -118,4 +120,6 @@ hold off;
 
 %% Teilaufgabe g
 %Minimaler Abstand 
-fprintf('Minimaler Abstand Rakete Mond %6.4f \n',min(dM(y(:,1),y(:,2))));
+Min=min(dM(y(:,1),y(:,2)))-RM;
+minref=Min*3.844*10^8;
+fprintf('Minimaler Abstand Rakete Mond %i km\n',minref);
