@@ -10,7 +10,7 @@
 clear;clc;close all;
 
 %Initialisierung der benoetigten Fenster
-openfigure(4,'init'); 
+openfigure(7,'init'); 
 
 %% Teilaufgabe b
 %Konstanten definieren umgerechnung mit Referenzgroessen
@@ -31,7 +31,7 @@ dM=@(x1,x2) sqrt((x1-1).^2+(x2-0).^2);
 %Gravitationspotential V
 pot=@(x1,x2)-y*((mE./dE(x1,x2))+(mM./dM(x1,x2)));
 %Gravitationsfeldstaerke G
-frc=@(x1,x2)[-y.*(mE./((x1.^2+x2.^2).^(3/2)).*x1)-y.*(mM./(((x1-1).^2+x2.^2).^(3/2)).*x1-1);-y.*(mE./((x1.^2+x2.^2).^(3/2)).*x2)-y.*(mM./(((x1-1).^2+x2.^2).^(3/2)).*x2)];
+frc=@(x1,x2)[-y.*(mE./((x1.^2+x2.^2).^(3/2)).*x1)-y.*(mM./(((x1-1).^2+x2.^2).^(3/2)).*(x1-1)),-y.*(mE./((x1.^2+x2.^2).^(3/2)).*x2)-y.*(mM./(((x1-1).^2+x2.^2).^(3/2)).*x2)];
 
 %Plot Gravitationspotential
 figure(1);
@@ -39,14 +39,83 @@ clf;
 x=0:0.05:1.2;
 y=-0.5:0.05:0.5;
 [X,Y]=meshgrid(x,y);
-mesh(X,Y,pot(X,Y));
+Z=pot(X,Y);
+R=dE(X,Y);
+Z(R<5*RE)=NaN;
+mesh(X,Y,Z);
+
 %Plot Gravitationsfeldstaerke
 figure(2);
 clf;
-%quiver(X,Y,frc(X,Y));
+A=frc(X,Y);
+R1=dE(X,Y);
+A(R1<5*RE)=NaN;
+idx=length(A(1,:))/2;
+U=A(:,1:idx);
+V=A(:,idx+1:end);
+quiver(X,Y,U,V);
 
 %% Teilaufgabe c
 x0=[RE,0]; %Startposition
 V0=v0*[cos(theta),sin(theta)]; %Abschussgeschwindigkeit
+%Anfangswertproblem
+Fode= @(tt,zz) [zz(3);zz(4);frc(zz(1),zz(2))'];
+z0=[x0,V0];
 
+%% Teilaufgabe d
+options=odeset('RelTol',10^(-7),'AbsTol',10^(-7));
+[t,y]= ode45(Fode,[0,6.65],z0,options);
+figure(3);
+clf;
+plot(y(:,1),y(:,2));
 
+%iR Index Loesungsvektor fuer den Abstand Erde kleiner Erdradius
+i=1;
+while dE(y(i,1),y(i,2))>=RE
+        ir=i;
+        i=i+1;
+end
+iR=i
+fprintf('Der Flug von der Erde zum Mond und wieder zurueck dauert %6.4f \n',t(iR));
+%% Teilaufgabe e
+t=t(1:iR,:);
+y=y(1:iR,:);
+%xKoordinate gegen Zeit
+figure(4);
+clf;
+plot(t,y(:,1));
+title('x-Koordinate gegen Zeit');
+xlabel('Zeit');
+ylabel('x-Koordinate');
+%Geschwindigkeit in xRichtung gegen Zeit
+figure(5);
+clf
+plot(t,y(:,3));
+title('Geschwindigkeit in x-Richtung gegen Zeit');
+xlabel('Zeit');
+ylabel('Geschwindigkeit in x-Richtung');
+%Phasendiagramm yKoordinate gegen xKoordinate
+figure(6);
+clf;
+plot(y(:,1),y(:,2));
+title('Phasendiagramm');
+xlabel('x');
+ylabel('y');
+%Zeitlichen Verlauf des Abstandes der Rakete zur Erde
+figure(7);
+clf;
+plot(t,dE(y(:,1),y(:,2)));
+title('Abstand Rakete zur Erde');
+xlabel('Zeit');
+ylabel('Abstand');
+
+%% Teilaufgabe f
+%Potential der Rakete als rote Punkte
+figure(1); 
+hold on;
+plot3(y(:,1),y(:,2),pot(y(:,1),y(:,2)),'r.');
+hold off;
+
+%% Teilaufgabe g
+%Minimaler Abstand 
+fprintf('Minimaler Abstand Rakete Mond %6.4f \n',min(dM(y(:,1),y(:,2))));
