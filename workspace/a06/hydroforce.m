@@ -1,5 +1,6 @@
 function F = hydroforce(t,y)
 %rechte Seite des Diffgleichungssystem fuer Sedimentation
+%gibt Vektor der laenge 3N zurueck
 global N;
 N=16;
 sum=zeros(3,N);
@@ -18,4 +19,6 @@ end
 sum=reshape(sum,[1,3*N]);
 F=(-5/(8*N)*sum)';
 end
+
+
 
