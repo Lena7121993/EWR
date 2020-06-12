@@ -1,9 +1,9 @@
 %% Datenfile
-% Beschreibung 2D Randwertprobleme auf dem Rechteck
+% Beschreibung 2D Randwertprobleme auf L-Gebiet
 % Bsp 1: Glatte Loesung 1
-%    -\Delta u = 0   in Omega,
+%    -\Delta u = 0                 in Omega,
 %            u = uD                 auf dem Rand.
-% Loesung: u(x,y) =x^(2/3)cos(2/3y-pi/6) .
+% Loesung: u(r,phi) =r^(2/3)cos(2/3phi-pi/6) .
 %
 % Das allgemeine Randwertproblem hat die Form (Prototyp)
 %    -div (a grad u) + b.grad u + cu = f     in I,
