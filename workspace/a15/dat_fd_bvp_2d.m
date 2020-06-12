@@ -1,19 +1,19 @@
 %% Datenfile
-% Beschreibung 2D Randwertprobleme auf dem Rechteck
-% Bsp 1: Glatte Loesung 1
-%    -\Delta u = 2x(1-x)+2y(1-y)   in (0,1)^2,
-%            u = 0                 auf dem Rand.
-% Loesung: u(x,y) = x(1-x)y(1-y).
+% Beschreibung Transportgleichung auf dem Rechteck
+% Bsp : Glatte Loesung 1
+%    -epsilon\Delta u +b.grad u= f  in (0,1)^2,
+%            u = 0                    auf dem Rand.
+% Loesung: u(x,y) = x(1-exp(-b1/epsilon(1-x)))y(1-exp(-b2/epsilon(1-y))
 %
 % Das allgemeine Randwertproblem hat die Form (Prototyp)
 %    -div (a grad u) + b.grad u + cu = f     in I,
 %                                  u = dir   auf rand(I).
 % Loesung: uex.
 
-% Version: Willy Doerfler, KIT, 2020.
+% Version: Lena Hilpp, Jan Frithjof Fleischhammer, 07.06.2020
+
 
 %% Daten
-%bsp: Auswahl Beispiel, ausserhalb setzen
 % Parameter
 domain = 'S';% Siehe 'help numgrid'
 NperDim = 11;% Punkte pro Dimension (dh, NperDim-1 Intervalle)
@@ -36,7 +36,7 @@ case 1% Glattes f, nodal exakt
    fun_uex = fun_dir;
    gopt.fixaxis = [0 1 0 1 0 0.1];
    
-case 3  
+case 3 %Aufgabe15 
     e=0.02;
     b1=1;
     b2=1/2;
