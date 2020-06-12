@@ -45,7 +45,7 @@ fprintf('Done (%4.2e sec)\n',toc(deti));
 
 %print('-f1','bild1','-dpng','-r100');
 %print('-f2','bild2','-dpng','-r100');
-%% Demo 3b: EOC zu Bsp 1 (erst Demo 1 ausfuehren)
+%% Demo 3b: EOC zu 5-Punkte-Stern(erst Demo 3a ausfuehren)
 fprintf('\n----------------------------------------\n');
 fprintf('\nMultiple numpde_fd_1d.m (%s)\n',datestr(now));
 fprintf(' Bsp %d, Stern %d-pt\n',bsp,star);
@@ -68,11 +68,10 @@ deti = tic;% Start demo timer
 % Set default values
 fddefaults();
 % A priori data
-bsp = 2;% -\Delta u = f auf 'S'
+bsp = 2;% -\Delta u = 0 auf 'L'
 % Run datafile
 eval(datafile);
 % A posteriori data
-%NperDim = 11;
 NperDim = 9;
 star=9;
 gopt.view = [20,30];
@@ -82,7 +81,7 @@ stationary_problem();
 figure(2); title(['Numerische Loesung Demo(' num2str(bsp) ')']);
 fprintf('Done (%4.2e sec)\n',toc(deti));
 
-%% Demo 3d: EOC zu Bsp 1 (erst Demo 1 ausfuehren)
+%% Demo 3d: EOC zu 9-Punkte-Stern (erst Demo 3c ausfuehren)
 fprintf('\n----------------------------------------\n');
 fprintf('\nMultiple numpde_fd_1d.m (%s)\n',datestr(now));
 fprintf(' Bsp %d, Stern %d-pt\n',bsp,star);
