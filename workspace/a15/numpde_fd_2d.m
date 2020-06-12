@@ -19,7 +19,7 @@
 
 % Version: Lena Hilpp, Jan Frithjof Fleischhammer, 07.06.2020
 %% Randwertprobleme
-clear all; close all;clf;
+clear all; close all; clf;
 openfigure(4,'init');
 
 %% Demo 4a: 5-Pkte Stern Transportgleichung
@@ -45,7 +45,7 @@ fprintf('Done (%4.2e sec)\n',toc(deti));
 
 %print('-f1','bild1gros','-dpng','-r100');
 %print('-f2','bild2gros','-dpng','-r100');
-%% Demo 4b: EOC zu Bsp 3 (erst Demo 4a ausfuehren)
+%% Demo 4b: EOC zu Transportgleichung (erst Demo 4a ausfuehren)
 fprintf('\n----------------------------------------\n');
 fprintf('\nMultiple numpde_fd_1d.m (%s)\n',datestr(now));
 fprintf(' Bsp %d, Stern %d-pt\n',bsp,star);
@@ -83,7 +83,7 @@ fprintf('Done (%4.2e sec)\n',toc(deti));
 
 %print('-f1','bild1upwind','-dpng','-r100');
 %print('-f2','bild2upwind','-dpng','-r100');
-%% Demo 4d: EOC zu Bsp 3 upwind (erst Demo 4c ausfuehren)
+%% Demo 4d: EOC zu upwind (erst Demo 4c ausfuehren)
 fprintf('\n----------------------------------------\n');
 fprintf('\nMultiple numpde_fd_1d.m (%s)\n',datestr(now));
 fprintf(' Bsp %d, Stern %d-pt\n',bsp,star);
