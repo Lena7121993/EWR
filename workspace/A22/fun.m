@@ -3,7 +3,7 @@ function ud = fun(x)
    %x- und y-Koordinaten die Auswertung der Loesung ud berechnen
     
    r=sqrt(x(:,1).*x(:,1)+x(:,2).*x(:,2));
-   phi=atan2(x(:,1),x(:,2));
+   phi=atan2(x(:,2),x(:,1));
 
    ud=r.^(2/3).*cos((2/3).*phi);
    
